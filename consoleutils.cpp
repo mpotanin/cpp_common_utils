@@ -3,10 +3,10 @@
 #include "filesystemfuncs.h"
 
 #ifdef _WIN32
-string MPLGDALLoader::strGDALWinVer = "300";
+string MPLGDALDelayLoader::strGDALWinVer = "300";
 
 
-void MPLGDALLoader::SetWinEnvVars (string strGDALPath)
+void MPLGDALDelayLoader::SetWinEnvVars (string strGDALPath)
 {
 	wstring wstrPATH = (_wgetenv(L"PATH")) ? _wgetenv(L"PATH") : L"";
 	wstring strGDALPathW = MPLString::utf8toWStr(MPLFileSys::GetAbsolutePath(strGDALPath,"bin"));
@@ -20,7 +20,7 @@ void MPLGDALLoader::SetWinEnvVars (string strGDALPath)
 	_wputenv((L"PROJ_LIB=" + wstrPROJLIBPath).c_str());
 }
 
-bool MPLGDALLoader::LoadWinDll(string strGDALDir, string strDllVer)
+bool MPLGDALDelayLoader::LoadWinDll(string strGDALDir, string strDllVer)
 {
   string strGDALDLL = MPLFileSys::GetAbsolutePath(strGDALDir, "bin/gdal" + strDllVer + ".dll");
   HMODULE b = LoadLibraryW(MPLString::utf8toWStr(strGDALDLL).c_str());
@@ -30,12 +30,12 @@ bool MPLGDALLoader::LoadWinDll(string strGDALDir, string strDllVer)
   return (b != NULL);
 }
 
-string MPLGDALLoader::ReadPathFromConfigFile(string strConfigFilePath)
+string MPLGDALDelayLoader::ReadPathFromConfigFile(string strConfigFile)
 {
-	string	strConfigFile = (strConfigFilePath == "") ? "TilingTools.config" : MPLFileSys::GetAbsolutePath(strConfigFilePath, "TilingTools.config");
+	//string	strConfigFile = (strConfigFilePath == "") ? "TilingTools.config" : MPLFileSys::GetAbsolutePath(strConfigFilePath, "TilingTools.config");
 	string  strConfigText = MPLFileSys::ReadTextFile(strConfigFile) + ' ';
 
-	std::regex rgxPathInput("^GdalPath=(.*[^\\s$])");
+	std::regex rgxPathInput("^GDAL_PATH=(.*[^\\s$])");
 	match_results<string::const_iterator> oMatch;
 	regex_search(strConfigText, oMatch, rgxPathInput);
 	if (oMatch.size() < 2)
@@ -48,7 +48,7 @@ string MPLGDALLoader::ReadPathFromConfigFile(string strConfigFilePath)
 		if (MPLFileSys::FileExists(oMatch[1]))
 			return oMatch[1];
 		else
-			return MPLFileSys::GetAbsolutePath(strConfigFilePath, oMatch[1]);
+			return MPLFileSys::GetAbsolutePath(MPLFileSys::GetPath(strConfigFile), oMatch[1]);
 	}
 }
 
@@ -57,7 +57,7 @@ string MPLGDALLoader::ReadPathFromConfigFile(string strConfigFilePath)
 
 
 
-bool MPLGDALLoader::Load (string strExecPath)
+bool MPLGDALDelayLoader::Load (string strExecPath)
 {
 #ifdef _WIN32
   string strGDALPath = ReadPathFromConfigFile(strExecPath);
@@ -70,7 +70,7 @@ bool MPLGDALLoader::Load (string strExecPath)
 	
   SetWinEnvVars(strGDALPath);
    
-  if (!LoadWinDll(strGDALPath, MPLGDALLoader::strGDALWinVer))
+  if (!LoadWinDll(strGDALPath, MPLGDALDelayLoader::strGDALWinVer))
 	{
 		cout<<"ERROR: can't load GDAL by path: "<<strGDALPath<<endl;
 		return FALSE;
@@ -118,7 +118,7 @@ bool MPLOptionParser::InitCmdLineArgsFromFile (string strFileName,
 }
 
 
-void MPLOptionParser::PrintUsage(const list<GMXOptionDescriptor> listDescriptors,
+void MPLOptionParser::PrintUsage(const list<MPLOptionDescriptor> listDescriptors,
 								const list<string> listExamples)
 {
   //TODO
@@ -153,7 +153,7 @@ void MPLOptionParser::Clear()
 
 
 
-bool MPLOptionParser::Init(const list<GMXOptionDescriptor> listDescriptors,
+bool MPLOptionParser::Init(const list<MPLOptionDescriptor> listDescriptors,
                             vector<string> &vecArgs)
 {
 	Clear();

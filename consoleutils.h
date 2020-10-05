@@ -20,10 +20,10 @@
 using namespace std;
 
 
-class MPLGDALLoader
+class MPLGDALDelayLoader
 {
 public:
-  static string ReadPathFromConfigFile(string strConfigFilePpath);
+  static string ReadPathFromConfigFile(string strConfigFile);
   static bool Load (string strExecPath);
 
 protected:
@@ -41,7 +41,7 @@ typedef struct
   bool bIsBoolean;
   int nOptionValueType; //0 - single, 1 - multiple, 2 - multiple key=value
   string strUsage;
-} GMXOptionDescriptor;
+} MPLOptionDescriptor;
 
 
 class MPLOptionParser
@@ -52,10 +52,10 @@ public:
                                       string strExeFilePath="");
 
 public:
-  static void PrintUsage (const list<GMXOptionDescriptor> listDescriptors,
+  static void PrintUsage (const list<MPLOptionDescriptor> listDescriptors,
                           const list<string> listExamples);
     
-  bool Init (const list<GMXOptionDescriptor> listDescriptors, vector<string> &vecArgs);
+  bool Init (const list<MPLOptionDescriptor> listDescriptors, vector<string> &vecArgs);
     
   string GetOptionValue (string strOptionName);
   list<string> GetValueList (string strMultipleOptionName);
@@ -65,7 +65,7 @@ private:
   void Clear();
 
 private:
-  map<string,GMXOptionDescriptor> m_mapDescriptors;
+  map<string,MPLOptionDescriptor> m_mapDescriptors;
   map<string,string> m_mapSingleOptions;
   map<string,map<string,string>> m_mapMultipleKVOptions;
   map<string,list<string>> m_mapMultipleOptions;
