@@ -9,10 +9,10 @@ string MPLGDALDelayLoader::strGDALWinVer = "300";
 void MPLGDALDelayLoader::SetWinEnvVars (string strGDALPath)
 {
 	wstring wstrPATH = (_wgetenv(L"PATH")) ? _wgetenv(L"PATH") : L"";
-	wstring strGDALPathW = MPLString::utf8toWStr(MPLFileSys::GetAbsolutePath(strGDALPath,"bin"));
-	wstring wstrGDALDataPath = MPLString::utf8toWStr(MPLFileSys::GetAbsolutePath(strGDALPath,"bin\\gdal-data"));
+	wstring strGDALPathW = MPLString::utf8toWStr(strGDALPath);
+	wstring wstrGDALDataPath = MPLString::utf8toWStr(MPLFileSys::GetAbsolutePath(strGDALPath,"gdal-data"));
 	wstring wstrGDALDriverPath = L"";
-	wstring wstrPROJLIBPath = MPLString::utf8toWStr(MPLFileSys::GetAbsolutePath(strGDALPath, "bin\\proj_lib"));
+	wstring wstrPROJLIBPath = MPLString::utf8toWStr(MPLFileSys::GetAbsolutePath(strGDALPath, "proj_lib"));
   
 	_wputenv((L"PATH=" + strGDALPathW + L";" + wstrPATH).c_str());
 	_wputenv((L"GDAL_DATA=" + wstrGDALDataPath).c_str());
@@ -22,7 +22,7 @@ void MPLGDALDelayLoader::SetWinEnvVars (string strGDALPath)
 
 bool MPLGDALDelayLoader::LoadWinDll(string strGDALDir, string strDllVer)
 {
-  string strGDALDLL = MPLFileSys::GetAbsolutePath(strGDALDir, "bin/gdal" + strDllVer + ".dll");
+  string strGDALDLL = MPLFileSys::GetAbsolutePath(strGDALDir, "gdal" + strDllVer + ".dll");
   HMODULE b = LoadLibraryW(MPLString::utf8toWStr(strGDALDLL).c_str());
   if (b == NULL)
     cout << "ERROR: can't load GDAL by path: " << strGDALDLL << endl;
