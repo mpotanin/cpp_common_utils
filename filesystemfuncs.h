@@ -11,6 +11,8 @@
 #include <string>
 #else
 #include <string.h>
+#include <sys/stat.h>
+#include <dirent.h>
 #endif
 
 #include <stdint.h>
