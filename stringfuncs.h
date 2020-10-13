@@ -128,9 +128,9 @@ public:
 		}
 		else if (regex_match(str_color, single_value_pattern))
 			rgb[1] = (rgb[2] = (rgb[0] = atoi(str_color.c_str())));
-		else return FALSE;
+		else return false;
 
-		return TRUE;
+		return true;
 	};
 
 

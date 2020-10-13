@@ -100,7 +100,7 @@ public:
 	{
 #ifdef GMXFSWIN32
 		wchar_t exe_filename_w[_MAX_PATH + 1];
-		GetModuleFileNameW(NULL, exe_filename_w, _MAX_PATH);
+		GetModuleFileNameW(0, exe_filename_w, _MAX_PATH);
 		string exe_filename = MPLString::wstrToUtf8(exe_filename_w);
 		exe_filename = MPLString::ReplaceAll(exe_filename, "\\", "/");
 		return GetPath(exe_filename);
@@ -191,7 +191,7 @@ public:
 		struct dirent *ent;
 		if ((dir = opendir(strBasePath == "" ? "." : strBasePath.c_str())) != 0)
 		{
-			while ((ent = readdir(dir)) != NULL)
+			while ((ent = readdir(dir)) != 0)
 			{
 				if ((regex_match(ent->d_name, regFileNamePattern)) && (!IsDirectory(ent->d_name)))
 					listFiles.push_back(GetAbsolutePath(strBasePath, ent->d_name));
@@ -249,7 +249,7 @@ public:
 		struct dirent *ent;
 		if ((dir = opendir(strFolder == "" ? "." : strFolder.c_str())) != 0)
 		{
-			while ((ent = readdir(dir)) != NULL)
+			while ((ent = readdir(dir)) != 0)
 			{
 				if ((ent->d_name[0] == '.') && ((ent->d_name[1] == 0) || (ent->d_name[2] == 0))) continue;
 				if (IsDirectory(GetAbsolutePath(strFolder, ent->d_name)))

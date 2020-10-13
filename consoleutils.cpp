@@ -24,10 +24,10 @@ bool MPLGDALDelayLoader::LoadWinDll(string strGDALDir, string strDllVer)
 {
   string strGDALDLL = MPLFileSys::GetAbsolutePath(strGDALDir, "gdal" + strDllVer + ".dll");
   HMODULE b = LoadLibraryW(MPLString::utf8toWStr(strGDALDLL).c_str());
-  if (b == NULL)
+  if (b == 0)
     cout << "ERROR: can't load GDAL by path: " << strGDALDLL << endl;
 
-  return (b != NULL);
+  return (b != 0);
 }
 
 string MPLGDALDelayLoader::ReadPathFromConfigFile(string strConfigFile)
