@@ -157,8 +157,18 @@ bool MPLOptionParser::Init(const list<MPLOptionDescriptor> listDescriptors,
                             vector<string> &vecArgs)
 {
 	Clear();
-    for (auto oDesc : listDescriptors)
-        m_mapDescriptors[oDesc.strOptionName]=oDesc;
+	for (auto oDesc : listDescriptors)
+	{
+		if (oDesc.bIsObligatory)
+		{
+			if (std::find(vecArgs.begin(), vecArgs.end(),oDesc.strOptionName) == vecArgs.end())
+			{
+				std::cout << "ERROR: obligatory parameter is missed: " << oDesc.strOptionName << std::endl;
+				return false;
+			}
+		}
+		m_mapDescriptors[oDesc.strOptionName] = oDesc;
+	}
 
 	for (int i=0; i<vecArgs.size();i++)
 	{

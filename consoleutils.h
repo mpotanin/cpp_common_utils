@@ -40,6 +40,7 @@ typedef struct
   string strOptionName;
   bool bIsBoolean;
   int nOptionValueType; //0 - single, 1 - multiple, 2 - multiple key=value
+  bool bIsObligatory;
   string strUsage;
 } MPLOptionDescriptor;
 
