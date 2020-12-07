@@ -122,8 +122,9 @@ public:
 
 	static string	GetAbsolutePath(string strBasePath, string strRelativePath)
 	{
-		return strBasePath + "/" + strRelativePath;
 
+		return strBasePath == "" ? strRelativePath : strBasePath + "/" + strRelativePath;
+		/*
 		strBasePath = RemoveEndingSlash(strBasePath);
 		regex regUpLevel("^(\\.| )*\\/.+");
 
@@ -135,6 +136,7 @@ public:
 		}
 
 		return strBasePath == "" ? strRelativePath : strBasePath + "/" + strRelativePath;
+		*/
 	}
 
 

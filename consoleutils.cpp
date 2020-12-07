@@ -13,7 +13,7 @@ void MPLGDALDelayLoader::SetWinEnvVars (string strGDALPath)
 	wstring wstrGDALDataPath = MPLString::utf8toWStr(MPLFileSys::GetAbsolutePath(strGDALPath,"gdal-data"));
 	wstring wstrGDALDriverPath = L"";
 	wstring wstrPROJLIBPath = MPLString::utf8toWStr(MPLFileSys::GetAbsolutePath(strGDALPath, "proj_lib"));
-  
+
 	_wputenv((L"PATH=" + strGDALPathW + L";" + wstrPATH).c_str());
 	_wputenv((L"GDAL_DATA=" + wstrGDALDataPath).c_str());
 	_wputenv((L"GDAL_DRIVER_PATH=" + wstrGDALDriverPath).c_str());
