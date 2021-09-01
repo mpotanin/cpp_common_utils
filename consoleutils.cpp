@@ -3,7 +3,7 @@
 #include "filesystemfuncs.h"
 
 #ifdef _WIN32
-string MPLGDALDelayLoader::strGDALWinVer = "300";
+string MPLGDALDelayLoader::strGDALWinVer = "303";
 
 
 void MPLGDALDelayLoader::SetWinEnvVars (string strGDALPath)
@@ -12,8 +12,8 @@ void MPLGDALDelayLoader::SetWinEnvVars (string strGDALPath)
 	wstring strGDALPathW = MPLString::utf8toWStr(strGDALPath);
 	wstring wstrGDALDataPath = MPLString::utf8toWStr(MPLFileSys::GetAbsolutePath(strGDALPath,"gdal-data"));
 	wstring wstrGDALDriverPath = L"";
-	wstring wstrPROJLIBPath = MPLString::utf8toWStr(MPLFileSys::GetAbsolutePath(strGDALPath, "proj_lib"));
-
+	wstring wstrPROJLIBPath = MPLString::utf8toWStr(MPLFileSys::GetAbsolutePath(strGDALPath, "proj7"));
+		
 	_wputenv((L"PATH=" + strGDALPathW + L";" + wstrPATH).c_str());
 	_wputenv((L"GDAL_DATA=" + wstrGDALDataPath).c_str());
 	_wputenv((L"GDAL_DRIVER_PATH=" + wstrGDALDriverPath).c_str());

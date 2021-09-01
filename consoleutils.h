@@ -14,7 +14,7 @@
 #include "ogrsf_frmts.h"
 #include "vrtdataset.h"
 #include "gdalwarper.h"
-#include "gd.h"
+//#include "gd.h"
 #include "sqlite3.h"
 
 using namespace std;
